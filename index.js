@@ -5,7 +5,7 @@ const DBL = require('dblapi.js');
 const { WebhookClient } = require("discord.js");
 // The webhookPort can be whatever you want but make sure you open that port in the firewall settings (for linux for example you can use `sudo ufw allow 8000`)
 // The webhookAuth is set by you, make sure you keep it secure and don\'t leak it
-const dbl = new DBL(process.env.apiToken, { webhookPort: 3000, webhookAuth: process.env.AUTH });
+const dbl = new DBL(process.env.APITOKEN, { webhookPort: 3000, webhookAuth: process.env.AUTH });
 
 // When the webhook is ready log it to the console, this will log `Webhook up and running at http://0.0.0.0:8000/dblwebhook`
 dbl.webhook.on('ready', hook => {
@@ -26,6 +26,6 @@ dbl.webhook.on('vote', async vote => {
 
 
 
-const webhookClient = new WebhookClient({ url: process.env.webhook });
+const webhookClient = new WebhookClient({ url: process.env.WEBHOOK });
  await webhookClient.send(`User with ID \`${userID}\` just voted!`);
 })
