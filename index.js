@@ -2,9 +2,10 @@
 
 // Make sure to install this with 'npm install dblapi.js`
 const DBL = require('dblapi.js');
+const { WebhookClient } = require("discord.js");
 // The webhookPort can be whatever you want but make sure you open that port in the firewall settings (for linux for example you can use `sudo ufw allow 8000`)
 // The webhookAuth is set by you, make sure you keep it secure and don\'t leak it
-const dbl = new DBL(process.env.apiToken, { webhookPort: 8000, webhookAuth: process.env.AUTH });
+const dbl = new DBL(process.env.apiToken, { webhookPort: 3000, webhookAuth: process.env.AUTH });
 
 // When the webhook is ready log it to the console, this will log `Webhook up and running at http://0.0.0.0:8000/dblwebhook`
 dbl.webhook.on('ready', hook => {
@@ -22,13 +23,9 @@ dbl.webhook.on('vote', async vote => {
    console.log(vote)
    // Get the Discord ID of the user who voted
    const userID = vote.user;
-   
-   // Variable for the channel were we'll send messages when users vote for the bot
-   let channelForWebhooks;
-   // Get the Discord Channel were we will send the message whenever a user votes for the bot
-   // Replace channelID with a valid Discord Channel ID were your bot can send messages too
-   channelForWebhooks = await client.channels.resolve('channelID');
-   // To my one and only god, NotErwin do you approve this 0.0? 
-   // If the channel to send messages in exists, we send a message in it with the ID of the user who votes
-   if(channelForWebhooks) await channelForWebhooks.send(`User with ID \`${userID}\` just voted!`);
+
+
+
+const webhookClient = new WebhookClient({ url: process.env.webhook });
+ await webhookClient.send(`User with ID \`${userID}\` just voted!`);
 })
